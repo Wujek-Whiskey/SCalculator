@@ -4,46 +4,44 @@ using System.Collections.Generic;
 
 namespace SCalculator
 {
-    internal class Program
+    class Program
     {
-        static Dictionary<string, string> arguments = new Dictionary<string, string>();
         static void Main(string[] args)
         {
             Console.WriteLine("\tWitaj w kalkulatorze");
             Console.WriteLine("\tJesli potrzebujesz pomocy wpisz: help");
+            Console.WriteLine("\tJesli potrzebujesz wyczyscic konsole wpisz: clear");
             Console.WriteLine("\tJesli chcesz wyjsc z programu wpisz: quit");
+
+            Calculator clt = new Calculator();
 
             while (true)
             {
                 Console.Write("\n\t");
                 var variable = Console.ReadLine().ToLower();
                 string[] variables = variable.Split(' ');
-                //Argument arg = new Argument("arg");
 
                 if (variables[0].Equals("arg"))
                 {
                     var setName = variables[1];
                     var setValue = double.Parse(variables[2]);
-                    //arg.setArgumentName(setName);
-                    //arg.setArgumentValue(setValue);
-                    //Console.WriteLine("\t" + arg.getArgumentName() + " = " + arg.getArgumentValue());
-                    AddArgument(setName, setValue);
+                    clt.AddArgument(setName, setValue);
                 }
                 else if (variables[0].Equals("showall"))
                 {
-                    ShowAllArguments();
+                    clt.ShowAllArguments();
                 }
                 else if (variables[0].Equals("help"))
                 {
-                    Help();
+                    clt.Help();
                 }
                 else if (variables[0].Equals("clear"))
                 {
-                    Clear();
+                    clt.Clear();
                 }
                 else if (variables[0].Equals("quit"))
                 {
-                    Quit();
+                    clt.Quit();
                 }
                 else if (variables[0].Equals("calc"))
                 {
@@ -52,13 +50,18 @@ namespace SCalculator
                 }
             }
         }
+    }
 
-        private static void AddArgument(string setName, double setValue)
+    public class Calculator
+    {
+        static Dictionary<string, string> arguments = new Dictionary<string, string>();
+
+        public void AddArgument(string setName, double setValue)
         {
             arguments.Add(setName.ToString(), setValue.ToString());
         }
 
-        private static void ShowAllArguments()
+        public void ShowAllArguments()
         {
             foreach (var argument in arguments)
             {
@@ -66,18 +69,18 @@ namespace SCalculator
             }
         }
 
-        private static void Help()
+        public void Help()
         {
             Expression e = new Expression();
             mXparser.consolePrintln(e.getHelp());
         }
 
-        private static void Clear()
+        public void Clear()
         {
             Console.Clear();
         }
 
-        private static void Quit()
+        public void Quit()
         {
             Environment.Exit(0);
         }
